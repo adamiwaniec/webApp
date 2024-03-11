@@ -1,69 +1,42 @@
-body {
-    font-family: "Arial", sans-serif;
-    background-color: #ffffff;
-    color: #333333;
-    margin: 0;
-    padding: 20px;
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 }
 
-h1,
-h2 {
-    color: #333;
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-button {
-    background-color: #0090c9;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 10px 0;
-    cursor: pointer;
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-button:hover {
-    background-color: #015f72;
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
 }
 
-input[type="text"],
-input[type="password"] {
-    padding: 10px;
-    margin: 10px 0;
-    width: 100%;
-    box-sizing: border-box;
+.card {
+  padding: 2em;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-table,
-th,
-td {
-    border: 1px solid #ddddddfb;
-}
-
-th,
-td {
-    text-align: left;
-    padding: 8px;
-}
-
-th {
-    background-color: #f2f2f2fb;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9f6;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    margin: 5px 0;
-    padding: 5px;
-    background-color: #f2f2f2fb;
+.read-the-docs {
+  color: #888;
 }
