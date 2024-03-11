@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import users from "./Users.jsx";
 import bookData from "./Books.jsx";
+import "./App.css";
 
 function LibraryApp() {
   /*  Variable states
@@ -22,7 +23,7 @@ function LibraryApp() {
   const [view, setView] = useState("welcome");
   const [error, setError] = useState("");
 
-  //localStorage.clear();   //testing
+  //localStorage.clear();   //clear saved variables for testing
 
   function registerUser(event) {
     event.preventDefault();
@@ -41,7 +42,8 @@ function LibraryApp() {
       return;
     }
 
-    const userData = JSON.parse(localStorage.getItem(username)) || users[username]; //if data exists in localstorage, retrieve that, default to user.jsx data
+    const userData =
+      JSON.parse(localStorage.getItem(username)) || users[username]; //if data exists in localstorage, retrieve that, default to user.jsx data
     setLoggedIn(true);
     setUserMoney(userData.money);
 
@@ -65,7 +67,6 @@ function LibraryApp() {
       setError("Not enough money to borrow this book");
       return;
     }
-    
 
     const updatedMoney = userMoney - book.price;
     const updatedBorrowedBooks = { ...userBorrowedBooks, [book.id]: book };
@@ -90,7 +91,7 @@ function LibraryApp() {
     delete updatedUserBorrowedBooks[bookId];
     setUserBorrowedBooks(updatedUserBorrowedBooks);
 
-    //save updates data to local storage
+    //save updated data to local storage
     localStorage.setItem(
       username,
       JSON.stringify({
@@ -129,7 +130,7 @@ function LibraryApp() {
 
   function welcomePage() {
     return (
-      <div>
+      <div className="welcome-page">
         <h1>Welcome to the Library of Babel</h1>
         <button onClick={() => setView("login")}>Login</button>
         <button onClick={() => setView("register")}>Sign Up</button>
@@ -139,7 +140,7 @@ function LibraryApp() {
 
   function loginPage() {
     return (
-      <div>
+      <div className="login-page">
         <h2>Login</h2>
         <form onSubmit={loginUser}>
           <input
@@ -156,24 +157,24 @@ function LibraryApp() {
         </form>
         <button onClick={() => setView("welcome")}>Back</button>
         {error && <p>{error}</p>}
-      </div> //show error message if there is one
+      </div>
     );
   }
 
   function registrationPage() {
     return (
-      <div>
+      <div className="registration-page">
         <h2>Register</h2>
         <form onSubmit={registerUser}>
           <input
             type="text"
             placeholder="New Username"
-            onChange={(event) => setNewUsername(event.target.value)}
+            onChange={(event) => setUsername(event.target.value)}
           />
           <input
             type="password"
             placeholder="New Password"
-            onChange={(event) => setNewUserPassword(event.target.value)}
+            onChange={(event) => setPassword(event.target.value)}
           />
           <button type="submit">Register</button>
         </form>
@@ -195,7 +196,6 @@ function LibraryApp() {
 
     //array to hold displayed buttons
     let buttons = [];
-
     //create a UI button for each page
     for (let i = 0; i < pageNumbers.length; i++) {
       const button = (
@@ -212,6 +212,34 @@ function LibraryApp() {
     return buttons;
   }
 
+  function borrowedBooksPage() {
+    return (
+      <div>
+        <h2>Your Borrowed Books</h2>
+        <table>
+          {" "}
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Return</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.keys(userBorrowedBooks).map((bookId) => (
+              <tr key={bookId}>
+                <td>{userBorrowedBooks[bookId].title}</td>{" "}
+                <td>
+                  <button onClick={() => returnBook(bookId)}>Return</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <button onClick={() => setView("app")}>Back to Library</button>
+      </div>
+    );
+  }
+
   function renderApp() {
     const filteredBooks = filterBooks();
     return (
@@ -219,7 +247,14 @@ function LibraryApp() {
         <h2>Welcome, {username}!</h2>
         <p>Your balance: ${userMoney}</p>
         <button onClick={logoutUser}>Logout</button>
+        <button
+          style={{ backgroundColor: "#4CAF50" }}
+          onClick={() => setView("borrowed")}
+        >
+          Borrowed Books
+        </button>
         <input type="text" placeholder="Search..." onChange={searchBox} />
+        <div>{pageButtons()}</div>
 
         <table>
           <thead>
@@ -247,18 +282,6 @@ function LibraryApp() {
             ))}
           </tbody>
         </table>
-
-        <div>{pageButtons()}</div>
-
-        <h2>Borrowed Books</h2>
-        <ul>
-          {Object.keys(userBorrowedBooks).map((bookId) => (
-            <li key={bookId}>
-              {userBorrowedBooks[bookId].title} -
-              <button onClick={() => returnBook(bookId)}>Return</button>
-            </li>
-          ))}
-        </ul>
       </div>
     );
   }
@@ -267,13 +290,12 @@ function LibraryApp() {
     if (view === "welcome") {return welcomePage();}
     if (view === "login") {return loginPage();}
     if (view === "register") {return registrationPage();}
-    if (loggedIn === true && view === "app") {return renderApp();
-    } else {return welcomePage();}
+    if (loggedIn === true && view === "app") {return renderApp();}
+    if (loggedIn === true && view === "borrowed") {return borrowedBooksPage();}
+    return welcomePage();
   }
 
-  return <div>{pages()}</div>; //LibraryApp() return
+  return <div>{pages()}</div>; //LibraryApp() return statement
 }
 
 export default LibraryApp;
-
-
