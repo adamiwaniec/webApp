@@ -12,12 +12,13 @@ h2 {
 }
 
 button {
-    background-color: #0090c9;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 10px 0;
-    cursor: pointer;
+  background-color: #0090c9;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 20px;
 }
 
 button:hover {

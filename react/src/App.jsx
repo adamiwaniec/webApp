@@ -10,7 +10,7 @@ function LibraryApp() {
   const [books, setBooks] = useState(bookData);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [booksPerPage] = useState(10); //# books per page
+  const [booksPerPage, setBooksPerPage] = useState(10); //# books per page
 
   //user variable states
   const [password, setPassword] = useState("");
@@ -103,10 +103,13 @@ function LibraryApp() {
   }
 
   function getCurrentBooks() {
-    //returns books on current page
+    //grabs array of books filtered from all pages
+    const filteredBooks = filterBooks();
     const indexOfLastBook = currentPage * booksPerPage;
     const indexOfFirstBook = indexOfLastBook - booksPerPage;
-    return books.slice(indexOfFirstBook, indexOfLastBook);
+
+    //use the new indicies to get new filtered books for current page
+    return filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
   }
 
   function searchBox(event) {
@@ -115,17 +118,13 @@ function LibraryApp() {
 
   function filterBooks() {
     //filter books by search term, return list of books that match
-    const currentBooks = getCurrentBooks();
-    const filteredBooks = currentBooks.filter((book) => {
-      //return true if any search terms match a title, genre, or description
+    return books.filter((book) => {
       return (
         book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         book.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
         book.genre.toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
-
-    return filteredBooks;
   }
 
   function welcomePage() {
@@ -184,24 +183,25 @@ function LibraryApp() {
     );
   }
 
+  //in comments, a list = array
   function pageButtons() {
-    const numberOfPages = Math.ceil(books.length / booksPerPage);
-
-    let pageNumbers = []; //array to hold page numbers
-
-    //get all needed page numbers
+    //calculate # of pages needed for list of filtered books
+    const numberOfPages = Math.ceil(filterBooks().length / booksPerPage);
+    let pageNumbers = []; //array of page numbers
     for (let i = 1; i <= numberOfPages; i++) {
       pageNumbers.push(i);
     }
 
-    //array to hold displayed buttons
-    let buttons = [];
-    //create a UI button for each page
+    let buttons = []; //array of buttons for the pages
     for (let i = 0; i < pageNumbers.length; i++) {
       const button = (
         <button
           key={pageNumbers[i]}
           onClick={() => setCurrentPage(pageNumbers[i])}
+          style={{
+            //hovering over the button for the page you are on prevents it from darkening
+            backgroundColor: currentPage === pageNumbers[i] ? "#0090c9" : "",
+          }}
         >
           {pageNumbers[i]}
         </button>
@@ -217,7 +217,6 @@ function LibraryApp() {
       <div>
         <h2>Your Borrowed Books</h2>
         <table>
-          {" "}
           <thead>
             <tr>
               <th>Title</th>
@@ -227,7 +226,7 @@ function LibraryApp() {
           <tbody>
             {Object.keys(userBorrowedBooks).map((bookId) => (
               <tr key={bookId}>
-                <td>{userBorrowedBooks[bookId].title}</td>{" "}
+                <td>{userBorrowedBooks[bookId].title}</td>
                 <td>
                   <button onClick={() => returnBook(bookId)}>Return</button>
                 </td>
@@ -241,21 +240,34 @@ function LibraryApp() {
   }
 
   function renderApp() {
-    const filteredBooks = filterBooks();
+    const currentBooks = getCurrentBooks();
     return (
       <div>
         <h2>Welcome, {username}!</h2>
         <p>Your balance: ${userMoney}</p>
         <button onClick={logoutUser}>Logout</button>
         <button
-          style={{ backgroundColor: "#4CAF50" }}
+          style={{ backgroundColor: "#4caf50" }}
           onClick={() => setView("borrowed")}
         >
           Borrowed Books
         </button>
         <input type="text" placeholder="Search..." onChange={searchBox} />
+        <div style={{ float: "right" }}>
+          <label htmlFor="booksPerPage">Books per page: </label>
+          <select
+            id="booksPerPage"
+            value={booksPerPage}
+            onChange={(event) => setBooksPerPage(Number(event.target.value))}
+          >
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={15}>15</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
+          </select>
+        </div>
         <div>{pageButtons()}</div>
-
         <table>
           <thead>
             <tr>
@@ -267,7 +279,7 @@ function LibraryApp() {
             </tr>
           </thead>
           <tbody>
-            {filteredBooks.map((book) => (
+            {currentBooks.map((book) => (
               <tr key={book.id}>
                 <td>{book.title}</td>
                 <td>{book.description}</td>
