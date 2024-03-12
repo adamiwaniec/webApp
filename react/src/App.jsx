@@ -127,19 +127,22 @@ function LibraryApp() {
     });
   }
 
+  /*** Rendering functions ***/
+
   function welcomePage() {
     return (
-      <div className="welcome-page">
+      <div>
         <h1>Welcome to the Library of Babel</h1>
-        <button onClick={() => setView("login")}>Login</button>
+        <button onClick={() => setView("login")}>Login</button>&nbsp;
         <button onClick={() => setView("register")}>Sign Up</button>
       </div>
     );
   }
-
+  // &nbsp; is a space to separate buttons
   function loginPage() {
+    //classes no longer needed
     return (
-      <div className="login-page">
+      <div>
         <h2>Login</h2>
         <form onSubmit={loginUser}>
           <input
@@ -148,11 +151,11 @@ function LibraryApp() {
             onChange={(event) => setUsername(event.target.value)}
           />
           <input
-            type="password"
+            type="text"
             placeholder="Password"
             onChange={(event) => setPassword(event.target.value)}
           />
-          <button type="submit">Login</button>
+          <button>Login</button>
         </form>
         <button onClick={() => setView("welcome")}>Back</button>
         {error && <p>{error}</p>}
@@ -162,20 +165,12 @@ function LibraryApp() {
 
   function registrationPage() {
     return (
-      <div className="registration-page">
+      <div>
         <h2>Register</h2>
         <form onSubmit={registerUser}>
-          <input
-            type="text"
-            placeholder="New Username"
-            onChange={(event) => setUsername(event.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="New Password"
-            onChange={(event) => setPassword(event.target.value)}
-          />
-          <button type="submit">Register</button>
+          <input type="text" placeholder="New Username" />
+          <input type="text" placeholder="New Password" />
+          <button>Register</button>
         </form>
         <button onClick={() => setView("welcome")}>Back</button>
         {error && <p>{error}</p>}
@@ -207,6 +202,7 @@ function LibraryApp() {
         </button>
       );
       buttons.push(button);
+      buttons.push(" "); //creates space between page buttons
     }
 
     return buttons;
@@ -219,15 +215,17 @@ function LibraryApp() {
         <table>
           <thead>
             <tr>
-              <th>Title</th>
-              <th>Return</th>
+              <th className="column200px">Title</th>
+              <th className="column150px">Return</th>
             </tr>
           </thead>
           <tbody>
             {Object.keys(userBorrowedBooks).map((bookId) => (
               <tr key={bookId}>
-                <td>{userBorrowedBooks[bookId].title}</td>
-                <td>
+                <td className="column200px">
+                  {userBorrowedBooks[bookId].title}
+                </td>
+                <td className="column150px">
                   <button onClick={() => returnBook(bookId)}>Return</button>
                 </td>
               </tr>
@@ -245,7 +243,7 @@ function LibraryApp() {
       <div>
         <h2>Welcome, {username}!</h2>
         <p>Your balance: ${userMoney}</p>
-        <button onClick={logoutUser}>Logout</button>
+        <button onClick={logoutUser}>Logout</button>&nbsp;
         <button
           style={{ backgroundColor: "#4caf50" }}
           onClick={() => setView("borrowed")}
@@ -281,14 +279,14 @@ function LibraryApp() {
           <tbody>
             {currentBooks.map((book) => (
               <tr key={book.id}>
-                <td>{book.title}</td>
-                <td>{book.description}</td>
-                <td>{book.genre}</td>
-                <td>${book.price}</td>
-                <td>
+                <td className="column200px">{book.title}</td>
+                <td className="column500px">{book.description}</td>
+                <td className="column150px">{book.genre}</td>
+                <td className="column100px">${book.price}</td>
+                <td className="column150px">
                   {!userBorrowedBooks[book.id] && (
                     <button onClick={() => borrowBook(book)}>Borrow</button>
-                  )}
+                  ) /*in case of any bug that shows borrowed books here*/}
                 </td>
               </tr>
             ))}
@@ -298,6 +296,7 @@ function LibraryApp() {
     );
   }
 
+  //errors not showing
   function pages() {
     if (view === "welcome") {return welcomePage();}
     if (view === "login") {return loginPage();}

@@ -1,32 +1,26 @@
 body {
     font-family: "Arial", sans-serif;
     background-color: #ffffff;
-    color: #333333;
+    color: #343434;
     margin: 0;
     padding: 20px;
 }
 
-h1,
-h2 {
-    color: #333;
-}
-
 button {
-  background-color: #0090c9;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  margin: 10px 0;
-  cursor: pointer;
-  border-radius: 20px;
+    background-color: #0090c9;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 20px;
 }
 
 button:hover {
     background-color: #015f72;
 }
 
-input[type="text"],
-input[type="password"] {
+input[type="text"] {
     padding: 10px;
     margin: 10px 0;
     width: 100%;
@@ -55,16 +49,24 @@ th {
 }
 
 tr:nth-child(even) {
-    background-color: #f9f9f9f6;
+    /*alternating row colors*/
+    background-color: #e9e9e9f6;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
+/*other page classes prob don't need*/
+/*fix table columns to specific width*/
+.column200px {
+    width: 200px;
 }
 
-li {
-    margin: 5px 0;
-    padding: 5px;
-    background-color: #f2f2f2fb;
+.column500px {
+    width: 500px;
+}
+
+.column150px {
+    width: 150px;
+}
+
+.column100px {
+    width: 100px;
 }
