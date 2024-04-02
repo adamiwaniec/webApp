@@ -10,4 +10,4 @@ Library management app made in Laravel with JS, CSS, and React. Some assumptions
 
 Prewritten user login details: userX, passwordX. X is any of the integers 1-5.
 
-Run with "npm install" and "npm run dev" in cli.
+To run: navigate to library-app/react/ and run "npm install" and "npm run dev" in cli.
