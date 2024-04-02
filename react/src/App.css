@@ -1,0 +1,72 @@
+body {
+    font-family: "Arial", sans-serif;
+    background-color: #ffffff;
+    color: #343434;
+    margin: 0;
+    padding: 20px;
+}
+
+button {
+    background-color: #0090c9;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+button:hover {
+    background-color: #015f72;
+}
+
+input[type="text"] {
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table,
+th,
+td {
+    border: 1px solid #ddddddfb;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2fb;
+}
+
+tr:nth-child(even) {
+    /*alternating row colors*/
+    background-color: #e9e9e9f6;
+}
+
+/*other page classes prob don't need*/
+/*fix table columns to specific width*/
+.column200px {
+    width: 200px;
+}
+
+.column500px {
+    width: 500px;
+}
+
+.column150px {
+    width: 150px;
+}
+
+.column100px {
+    width: 100px;
+}
